@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
@@ -79,7 +80,7 @@ class StudentListView(ListView):
         return context
 
 
-class StudentCreateView(CreateView):
+class StudentCreateView(LoginRequiredMixin,CreateView):
     model = Student
     form_class = StudentForm
     template_name = "student/student_form.html"
@@ -91,14 +92,14 @@ class StudentCreateView(CreateView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class StudentUpdateView(UpdateView):
+class StudentUpdateView(LoginRequiredMixin,UpdateView):
     model = Student
     form_class = StudentForm
     template_name = "student/student_form.html"
     success_url = reverse_lazy("student-list")
 
 
-class StudentDeleteView(DeleteView):
+class StudentDeleteView(LoginRequiredMixin,DeleteView):
     model = Student
     template_name = "student/student_confirm_delete.html"
     success_url = reverse_lazy("student-list")

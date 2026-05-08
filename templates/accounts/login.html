@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+
+<h2>Login</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div>
+        <label>Username</label><br>
+        <input type="text" name="username" required>
+    </div>
+
+    <br>
+
+    <div>
+        <label>Password</label><br>
+        <input type="password" name="password" required>
+    </div>
+
+    <br>
+
+    <button type="submit">Login</button>
+</form>
+
+<br>
+
+<p style="color:red;">
+    {% if form.errors %}
+        Username yoki password noto‘g‘ri
+    {% endif %}
+</p>
+
+</body>
+</html>
