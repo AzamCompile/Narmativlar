@@ -96,3 +96,4 @@ class StudentDeleteView(DeleteView):
     model = Student
     template_name = "student/student_confirm_delete.html"
     success_url = reverse_lazy("student-list")
+    context_object_name = "student"
