@@ -11,7 +11,6 @@ from .models import Course, Student
 from .forms import CourseForm, StudentForm
 
 
-
 class CourseListView(ListView):
     model = Course
     template_name = "course/course_list.html"
@@ -38,6 +37,10 @@ class CourseDeleteView(DeleteView):
     success_url = reverse_lazy("course-list")
 
 
+from django.db.models import Q
+from django.views.generic import ListView
+
+from .models import Student, Course
 
 
 class StudentListView(ListView):
@@ -46,17 +49,31 @@ class StudentListView(ListView):
     context_object_name = "students"
 
     def get_queryset(self):
-        search = self.request.GET.get("search")
 
+        students = Student.objects.all()
+
+        search = self.request.GET.get("search")
+        course = self.request.GET.get("course")
+
+        # SEARCH
         if search:
-            students = Student.objects.filter(
+            students = students.filter(
                 Q(full_name__icontains=search) |
                 Q(email__icontains=search)
             )
-        else:
-            students = Student.objects.all()
+
+        # FILTER
+        if course:
+            students = students.filter(course_id=course)
 
         return students
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["courses"] = Course.objects.all()
+
+        return context
 
 
 class StudentCreateView(CreateView):

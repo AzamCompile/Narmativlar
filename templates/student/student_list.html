@@ -1,26 +1,52 @@
 <h1>Students</h1>
+
 <form method="get">
 
+    <!-- SEARCH -->
     <input type="text"
            name="search"
            placeholder="Search student..."
            value="{{ request.GET.search }}">
 
-    <button type="submit">Search</button>
+    <!-- COURSE FILTER -->
+    <select name="course">
+
+        <option value="">All Courses</option>
+
+        {% for course in courses %}
+
+            <option value="{{ course.id }}"
+                    {% if request.GET.course == course.id|stringformat:"s" %}
+                    selected
+                    {% endif %}
+            >
+                {{ course.title }}
+            </option>
+
+        {% endfor %}
+
+    </select>
+
+    <button type="submit">Filter</button>
 
 </form>
 
-<a href="{% url 'student-create' %}">Add Student</a>
-<a href="{% url 'course-create' %}">Add Course</a>
+<br>
 
+<a href="{% url 'student-create' %}">
+    Add Student
+</a>
+
+<a href="{% url 'course-create' %}">Add Course</a>
 <hr>
 
 {% for student in students %}
+
     <h3>{{ student.full_name }}</h3>
 
-    <p>{{ student.phone }}</p>
-    <p>{{ student.email }}</p>
-    <p>{{ student.course }}</p>
+    <p>Phone: {{ student.phone }}</p>
+    <p>Email: {{ student.email }}</p>
+    <p>Course: {{ student.course }}</p>
 
     {% if student.is_active %}
         <p>Active</p>
@@ -28,8 +54,18 @@
         <p>Inactive</p>
     {% endif %}
 
-    <a href="{% url 'student-edit' student.id %}">Edit</a>
-    <a href="{% url 'student-delete' student.id %}">Delete</a>
+    <a href="{% url 'student-edit' student.id %}">
+        Edit
+    </a>
+
+    <a href="{% url 'student-delete' student.id %}">
+        Delete
+    </a>
 
     <hr>
+
+{% empty %}
+
+    <h2>No students found</h2>
+
 {% endfor %}
