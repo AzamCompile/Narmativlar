@@ -1,9 +1,34 @@
 <h1>Student Form</h1>
 
 <form method="post">
+
     {% csrf_token %}
 
-    {{ form.as_p }}
+    {% for field in form %}
 
-    <button type="submit">Save</button>
+        <div style="margin-bottom: 15px;">
+
+            <label>
+                {{ field.label }}
+            </label>
+
+            <br>
+
+            {{ field }}
+
+            <!-- ERRORS -->
+            {% for error in field.errors %}
+                <p style="color:red;">
+                    {{ error }}
+                </p>
+            {% endfor %}
+
+        </div>
+
+    {% endfor %}
+
+    <button type="submit">
+        Save
+    </button>
+
 </form>
