@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
@@ -84,6 +85,11 @@ class StudentCreateView(CreateView):
     template_name = "student/student_form.html"
     success_url = reverse_lazy("student-list")
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.groups.filter(name="Manager").exists():
+            return HttpResponseForbidden("Sizda ruxsat yo‘q")
+        return super().dispatch(request, *args, **kwargs)
+
 
 class StudentUpdateView(UpdateView):
     model = Student
@@ -97,3 +103,8 @@ class StudentDeleteView(DeleteView):
     template_name = "student/student_confirm_delete.html"
     success_url = reverse_lazy("student-list")
     context_object_name = "student"
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.groups.filter(name="Manager").exists():
+            return HttpResponseForbidden("Sizda ruxsat yo‘q")
+        return super().dispatch(request, *args, **kwargs)

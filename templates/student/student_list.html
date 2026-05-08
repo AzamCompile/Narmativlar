@@ -33,11 +33,11 @@
 
 <br>
 
-<a href="{% url 'student-create' %}">
-    Add Student
-</a>
+{% if request.user.groups.all.0.name == "Manager" %}
+    <a href="{% url 'student-create' %}">Add</a>
+    <a href="{% url 'course-create' %}">Add Course</a>
+{% endif %}
 
-<a href="{% url 'course-create' %}">Add Course</a>
 <hr>
 
 {% for student in students %}
