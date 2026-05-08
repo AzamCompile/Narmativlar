@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
@@ -21,7 +22,7 @@ class CourseCreateView(CreateView):
     model = Course
     form_class = CourseForm
     template_name = "course/course_form.html"
-    success_url = reverse_lazy("course-list")
+    success_url = reverse_lazy("student-list")
 
 
 class CourseUpdateView(UpdateView):
@@ -43,6 +44,19 @@ class StudentListView(ListView):
     model = Student
     template_name = "student/student_list.html"
     context_object_name = "students"
+
+    def get_queryset(self):
+        search = self.request.GET.get("search")
+
+        if search:
+            students = Student.objects.filter(
+                Q(full_name__icontains=search) |
+                Q(email__icontains=search)
+            )
+        else:
+            students = Student.objects.all()
+
+        return students
 
 
 class StudentCreateView(CreateView):

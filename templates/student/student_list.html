@@ -1,4 +1,14 @@
 <h1>Students</h1>
+<form method="get">
+
+    <input type="text"
+           name="search"
+           placeholder="Search student..."
+           value="{{ request.GET.search }}">
+
+    <button type="submit">Search</button>
+
+</form>
 
 <a href="{% url 'student-create' %}">Add Student</a>
 <a href="{% url 'course-create' %}">Add Course</a>
