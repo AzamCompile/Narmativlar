@@ -48,6 +48,8 @@ class StudentListView(ListView):
     template_name = "student/student_list.html"
     context_object_name = "students"
 
+    paginate_by = 5
+
     def get_queryset(self):
 
         students = Student.objects.all()

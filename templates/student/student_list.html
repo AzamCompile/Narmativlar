@@ -64,6 +64,29 @@
 
     <hr>
 
+    <div>
+
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}
+        &search={{ request.GET.search }}
+        &course={{ request.GET.course }}">
+                Previous
+            </a>
+        {% endif %}
+
+        <span>
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}
+        &search={{ request.GET.search }}
+        &course={{ request.GET.course }}">
+                Next
+            </a>
+        {% endif %}
+
+    </div>
 {% empty %}
 
     <h2>No students found</h2>
