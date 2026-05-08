@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from accounts.forms import LoginForm, RegisterForm
@@ -14,7 +13,6 @@ def register(request):
         if form.is_valid():
             user = form.save()
 
-            # 🔥 EMAIL YUBORISH
             send_mail(
                 subject="Ro‘yxatdan o‘tish muvaffaqiyatli",
                 message="Siz Django kursga muvaffaqiyatli ro‘yxatdan o‘tdingiz.",
@@ -51,4 +49,4 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect("login")

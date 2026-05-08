@@ -54,7 +54,7 @@ class StudentListView(ListView):
 
     def get_queryset(self):
 
-        students = Student.objects.all()
+        students = Student.objects.all().order_by("-id")
 
         search = self.request.GET.get("search")
         course = self.request.GET.get("course")
