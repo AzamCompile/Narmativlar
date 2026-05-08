@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Login</title>
 </head>
 <body>
@@ -11,30 +10,17 @@
 <form method="post">
     {% csrf_token %}
 
-    <div>
-        <label>Username</label><br>
-        <input type="text" name="username" required>
-    </div>
-
-    <br>
-
-    <div>
-        <label>Password</label><br>
-        <input type="password" name="password" required>
-    </div>
-
-    <br>
+    {{ form.as_p }}
 
     <button type="submit">Login</button>
 </form>
 
-<br>
-
-<p style="color:red;">
-    {% if form.errors %}
-        Username yoki password noto‘g‘ri
-    {% endif %}
-</p>
+<!-- ERRORS -->
+{% if form.errors %}
+    <p style="color:red;">
+        Login yoki captcha noto‘g‘ri
+    </p>
+{% endif %}
 
 </body>
 </html>

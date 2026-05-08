@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
+from accounts.forms import LoginForm
 
 
 def register(request):
@@ -16,17 +17,24 @@ def register(request):
 
 
 def login_view(request):
+    form = LoginForm()
+
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+        form = LoginForm(request.POST)
 
-        user = authenticate(request, username=username, password=password)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
 
-        if user:
-            login(request, user)
-            return redirect("student-list")
+            user = authenticate(request, username=username, password=password)
 
-    return render(request, "accounts/login.html")
+            if user:
+                login(request, user)
+                return redirect("student-list")
+            else:
+                form.add_error(None, "Username yoki password noto‘g‘ri")
+
+    return render(request, "accounts/login.html", {"form": form})
 
 
 def logout_view(request):
