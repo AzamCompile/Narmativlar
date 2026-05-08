@@ -1,16 +1,28 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
-from accounts.forms import LoginForm
+from accounts.forms import LoginForm, RegisterForm
 
 
 def register(request):
-    form = UserCreationForm()
+    form = RegisterForm()
 
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = RegisterForm(request.POST)
+
         if form.is_valid():
-            form.save()
+            user = form.save()
+
+            # 🔥 EMAIL YUBORISH
+            send_mail(
+                subject="Ro‘yxatdan o‘tish muvaffaqiyatli",
+                message="Siz Django kursga muvaffaqiyatli ro‘yxatdan o‘tdingiz.",
+                from_email=None,
+                recipient_list=[user.email],
+                fail_silently=False,
+            )
+
             return redirect("login")
 
     return render(request, "registration/register.html", {"form": form})
