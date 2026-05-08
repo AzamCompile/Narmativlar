@@ -1,0 +1,25 @@
+<h1>Students</h1>
+
+<a href="{% url 'student-create' %}">Add Student</a>
+<a href="{% url 'course-create' %}">Add Course</a>
+
+<hr>
+
+{% for student in students %}
+    <h3>{{ student.full_name }}</h3>
+
+    <p>{{ student.phone }}</p>
+    <p>{{ student.email }}</p>
+    <p>{{ student.course }}</p>
+
+    {% if student.is_active %}
+        <p>Active</p>
+    {% else %}
+        <p>Inactive</p>
+    {% endif %}
+
+    <a href="{% url 'student-edit' student.id %}">Edit</a>
+    <a href="{% url 'student-delete' student.id %}">Delete</a>
+
+    <hr>
+{% endfor %}

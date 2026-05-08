@@ -1,0 +1,16 @@
+<h1>Courses</h1>
+
+<a href="{% url 'course-create' %}">Add Course</a>
+
+<hr>
+
+{% for course in courses %}
+    <h3>{{ course.title }}</h3>
+    <p>{{ course.description }}</p>
+    <p>{{ course.price }}</p>
+
+    <a href="{% url 'course-edit' course.id %}">Edit</a>
+    <a href="{% url 'course-delete' course.id %}">Delete</a>
+
+    <hr>
+{% endfor %}
