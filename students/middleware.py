@@ -4,7 +4,6 @@ class RequestLoggingMiddleware:
 
     def __call__(self, request):
 
-        # requestdan oldin
         path = request.path
         method = request.method
 
